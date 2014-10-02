@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 
 public class consultasSqlite {
-	Scanner scn;
-	String consulta;
+	
+	private String consulta;
 	
 	
 	
@@ -20,7 +20,7 @@ public class consultasSqlite {
 	public void seleccionConsulta(){
 		
 		int seleccion;
-		scn=new Scanner(System.in);
+		Scanner scn=new Scanner(System.in);
 		//solicita elegir:
 		System.out.println("1 - Listado empleados de Catarroja que trabajan en el departamento nª20");
 		System.out.println("2 - Listado de empleados que cobran menos de 850 € y no son de Silla");
@@ -32,28 +32,29 @@ public class consultasSqlite {
 		System.out.println("Por favor, selecinar una opción del 1 al 6:");
 		System.out.println();
 		seleccion=scn.nextInt();
+		scn.close();
 		
 		//Se asigna la consulta según la eleccion:
 		
 		switch(seleccion){
 		
 			case 1: 
-				consulta="SELECT * FROM empleados where localidad=\"Catarroja\" and departamento=20;";
+				consulta="SELECT * FROM empleados where localidad=\"Catarroja\" and depto=20;";
 				break;
 			case 2: 
 				consulta="SELECT * FROM empleados where localidad !=\"Silla\" and salario<850;";
 				break;
 			case 3: 
-				consulta="SELECT localidad,AVG(salario) FROM empleados GROUP BY localidad;";
+				consulta="SELECT localidad,AVG(salario) AS SalarioMedio FROM empleados GROUP BY localidad;";
 				break;
 			case 4: 
 				consulta="SELECT empleados.*, departamentos.loc FROM empleados INNER JOIN departamentos on empleados.depto=departamentos.dept_no where departamentos.loc IN (\"Madrid\",\"Barcelona\");";
 				break;
 			case 5: 
-				consulta="SELECT * FROM empleados where localidad=\"Catarroja\" and departamento=20;";
+				consulta="SELECT empleados.*, departamentos.loc FROM empleados INNER JOIN departamentos on empleados.depto=departamentos.dept_no where departamentos.loc LIKE \"Sevilla\" AND empleados.localidad NOT LIKE \"Catarroja\";";
 				break;
 			case 6: 
-				consulta="SELECT * FROM empleados where localidad=\"Catarroja\" and departamento=20;";
+				consulta="SELECT depto,SUM(depto) AS empleados,AVG(salario) AS SalarioMedio FROM empleados GROUP BY depto;";
 				break;
 		
 		
@@ -61,17 +62,12 @@ public class consultasSqlite {
 	}
 	
 	public void ConsultaBBDD(){
-		
-	}
-
-	public static void main(String[] args) {
-		
-			  try {
+		 try {
 			   Class.forName("org.sqlite.JDBC");
 			   Connection conexion = DriverManager.getConnection
 			   ("jdbc:sqlite:C:\\db\\sqlite\\ejemplo.db");
 			   Statement sentencia = conexion. createStatement();
-			   ResultSet result = sentencia.executeQuery("SELECT * FROM empleados");
+			   ResultSet result = sentencia.executeQuery(this.consulta);
 			   while (result.next()){
 				   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6));
 			   }
@@ -81,6 +77,14 @@ public class consultasSqlite {
 			   }
 			   catch (ClassNotFoundException cn) {cn.printStackTrace();}
 			   catch (SQLException e) {e.printStackTrace();}
+		
+	}
+
+	public static void main(String[] args) {
+		consultasSqlite csql=new consultasSqlite();
+		csql.seleccionConsulta();
+		csql.ConsultaBBDD();
+			 
 			
 
 	}

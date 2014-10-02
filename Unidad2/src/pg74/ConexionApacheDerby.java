@@ -16,7 +16,7 @@ public class ConexionApacheDerby {
 		try {
 			   Class.forName("org.apache.derby.JDBC.EmbeddedDriver");//2
 			   Connection conexion = DriverManager.getConnection// 4
-			   ("jdbc:derby:C:\\sqlite\\ejemplo");//3//cambiar la ruta
+			   ("jdbc:derby:C:\\db\\derby\\ejemplo");//3//cambiar la ruta
 			   Statement sentencia = conexion. createStatement();//5
 			   ResultSet result = sentencia.executeQuery("SELECT * FROM empleados");//6
 			   while (result.next())//7

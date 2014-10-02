@@ -18,11 +18,17 @@ public class conexionSqlite {
 			  try {
 			   Class.forName("org.sqlite.JDBC");//2
 			   Connection conexion = DriverManager.getConnection// 4
-			   ("jdbc:sqlite:C:\\sqlite\\ejemplo.db");//3
+			   ("jdbc:sqlite:C:\\db\\sqlite\\ejemplo.db");//3
 			   Statement sentencia = conexion. createStatement();//5
 			   ResultSet result = sentencia.executeQuery("SELECT * FROM empleados");//6
-			   while (result.next())//7
-			     {System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3));}
+			  
+			   while (result.next()){//7
+				   
+			     //System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3));
+			     System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6));
+			   
+			   }
+			   
 			   result.close();//8
 			   sentencia.close();//9
 			   conexion.close();//10
