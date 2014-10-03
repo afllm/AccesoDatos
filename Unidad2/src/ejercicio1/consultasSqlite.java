@@ -19,7 +19,9 @@ public class consultasSqlite {
 	 * */
 	public void seleccionConsulta(){
 		
-		
+		/*
+		 * empleados que trabajan en el mismo departamento que pepe
+		 * */
 		Scanner scn=new Scanner(System.in);
 		//solicita elegir:
 		System.out.println("1 - Listado empleados de Catarroja que trabajan en el departamento nª20");
@@ -28,8 +30,9 @@ public class consultasSqlite {
 		System.out.println("4 - Listado de empleados que trabajan en Madrid o en Barcelona");
 		System.out.println("5 - Listado de empleados que trabajan en Sevilla y no son de Catarroja");
 		System.out.println("6 - Calcular cuantos empleados trabajan en cada departamento así como su salario medio");
+		System.out.println("7 - Listado de los empleados que trabajan en el mismo departamento que Pepe");
 		System.out.println();
-		System.out.println("Por favor, selecinar una opción del 1 al 6:");
+		System.out.println("Por favor, selecionar una opción del 1 al 7:");
 		System.out.println();
 		seleccion=scn.nextInt();
 		scn.close();
@@ -56,6 +59,9 @@ public class consultasSqlite {
 			case 6: 
 				consulta="SELECT depto,COUNT(depto) AS empleados,AVG(salario) AS SalarioMedio FROM empleados GROUP BY depto;";
 				break;
+			case 7: 
+				consulta="SELECT empleados.* FROM empleados where empleados.depto in (SELECT empleados.depto FROM empleados WHERE empleados.nombre = \"Pepe\");";
+				break;
 		
 		
 		}
@@ -70,7 +76,7 @@ public class consultasSqlite {
 			   ResultSet result = sentencia.executeQuery(this.consulta);
 			   while (result.next()){
 				   if(seleccion==3 || seleccion==4 || seleccion==5){
-						   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6)+ " " +result.getString(7));
+					   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6)+ " " +result.getString(7));
 				   }else if(seleccion==6){
 					   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3));
 				   }else{
