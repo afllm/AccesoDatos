@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class consultasSqlite {
 	
 	private String consulta;
-	
+	private int seleccion;
 	
 	
 	/*
@@ -19,7 +19,7 @@ public class consultasSqlite {
 	 * */
 	public void seleccionConsulta(){
 		
-		int seleccion;
+		
 		Scanner scn=new Scanner(System.in);
 		//solicita elegir:
 		System.out.println("1 - Listado empleados de Catarroja que trabajan en el departamento nª20");
@@ -45,16 +45,16 @@ public class consultasSqlite {
 				consulta="SELECT * FROM empleados where localidad !=\"Silla\" and salario<850;";
 				break;
 			case 3: 
-				consulta="SELECT localidad,AVG(salario) AS SalarioMedio FROM empleados GROUP BY localidad;";
+				consulta="SELECT *,AVG(salario) AS salarioMedio FROM empleados GROUP BY localidad;";
 				break;
 			case 4: 
-				consulta="SELECT empleados.*, departamentos.loc FROM empleados INNER JOIN departamentos on empleados.depto=departamentos.dept_no where departamentos.loc IN (\"Madrid\",\"Barcelona\");";
+				consulta="SELECT empleados.*, departamentos.loc FROM empleados INNER JOIN departamentos on empleados.depto=departamentos.dept_no where departamentos.loc LIKE \"Madrid\" OR departamentos.loc LIKE \"Barcelona\";";
 				break;
 			case 5: 
 				consulta="SELECT empleados.*, departamentos.loc FROM empleados INNER JOIN departamentos on empleados.depto=departamentos.dept_no where departamentos.loc LIKE \"Sevilla\" AND empleados.localidad NOT LIKE \"Catarroja\";";
 				break;
 			case 6: 
-				consulta="SELECT depto,SUM(depto) AS empleados,AVG(salario) AS SalarioMedio FROM empleados GROUP BY depto;";
+				consulta="SELECT depto,COUNT(depto) AS empleados,AVG(salario) AS SalarioMedio FROM empleados GROUP BY depto;";
 				break;
 		
 		
@@ -69,7 +69,13 @@ public class consultasSqlite {
 			   Statement sentencia = conexion. createStatement();
 			   ResultSet result = sentencia.executeQuery(this.consulta);
 			   while (result.next()){
-				   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6));
+				   if(seleccion==3 || seleccion==4 || seleccion==5){
+						   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6)+ " " +result.getString(7));
+				   }else if(seleccion==6){
+					   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3));
+				   }else{
+					   System.out.println(result.getInt(1) + " " + result.getString(2) + " " +result.getString(3)+ " " +result.getString(4)+ " " +result.getString(5)+ " " +result.getString(6));
+				   }
 			   }
 			   result.close();
 			   sentencia.close();
