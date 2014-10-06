@@ -9,7 +9,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-public class consultasSqlite {
+
+
+public class consultasMysql {
 	
 	private String consulta;
 	private int seleccion;
@@ -25,7 +27,7 @@ public class consultasSqlite {
 		boolean correcto=false;
 		//solicita elegir:
 		while(correcto==false){
-			System.out.println("Consultas con SQlite");
+			System.out.println("Consultas con MySQL");
 			System.out.println();
 			System.out.println("1 - Listado empleados de Catarroja que trabajan en el departamento nª20");
 			System.out.println("2 - Listado de empleados que cobran menos de 850 € y no son de Silla");
@@ -82,9 +84,9 @@ public class consultasSqlite {
 	
 	public void ConsultaBBDD(){
 		 try {
-			   Class.forName("org.sqlite.JDBC");
+			   Class.forName("com.mysql.jdbc.Driver");
 			   Connection conexion = DriverManager.getConnection
-			   ("jdbc:sqlite:C:\\db\\sqlite\\ejemplo.db");
+			   ("jdbc:mysql:127.0.0.1/ejemplo","root","dam2");
 			   Statement sentencia = conexion. createStatement();
 			   ResultSet result = sentencia.executeQuery(this.consulta);
 			   while (result.next()){
@@ -106,7 +108,7 @@ public class consultasSqlite {
 	}
 
 	public static void main(String[] args) {
-		consultasSqlite csql=new consultasSqlite();
+		consultasMysql csql=new consultasMysql();
 		csql.seleccionConsulta();
 		csql.ConsultaBBDD();
 			 
