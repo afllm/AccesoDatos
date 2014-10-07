@@ -84,7 +84,7 @@ public class consultasMysql {
 	
 	public void ConsultaBBDD(){
 		 try {
-			   Class.forName("com.mysql.jdbc.Driver");
+			   Class.forName("com.jdbc.mysql.Driver");
 			   Connection conexion = DriverManager.getConnection
 			   ("jdbc:mysql:127.0.0.1/ejemplo","root","dam2");
 			   Statement sentencia = conexion. createStatement();
