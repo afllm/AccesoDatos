@@ -10,12 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ActualizarSqlite {
+public class ActualizarMysql {
 	
 	public void modificacionBBDD() throws SQLException, ClassNotFoundException{
-		Class.forName("org.sqlite.JDBC");
-	   Connection conexion = DriverManager.getConnection
-	   ("jdbc:sqlite:C:\\db\\sqlite\\ejemplo.db");
+		Class.forName("com.mysql.jdbc.Driver");
+	   Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ejemplo","root","dam2");
 	   Statement sentencia = conexion. createStatement();
 	   //Listar tabla original:
 	   System.out.println("Tabla original:");
